@@ -1,0 +1,163 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-wp
+  namespace: innovations
+  labels:
+    app: project-wp
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-wp
+  template:
+    metadata:
+      labels:
+        app: project-wp
+    spec:
+      tolerations:
+        - key: "availability"
+          operator: "Equal"
+          value: "always"
+          effect: "NoSchedule"
+        - key: "availability"
+          operator: "Equal"
+          value: "always"
+          effect: "NoExecute"
+      nodeSelector:
+        uptime: "24x7"
+      containers:
+        - name: project-wp
+          image: tupperware.mynt.xyz/datascience/innovations/project-wp:1.0
+          imagePullPolicy: Always
+          # command: ["/code/entrypoint.sh"]
+          # command: ["/bin/sh"]
+          # args:
+          #   - -c
+          #   - >-
+          #     alembic upgrade head &&
+          #     uvicorn app.main:app --host 0.0.0.0 --port 8000
+          # command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+          # command: ["/bin/sh", "-c"]
+          # args:
+          #   - >
+          #     alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 128Mi
+          ports:
+            - name: project-wp
+              containerPort: 8000
+              protocol: TCP
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_USER
+                  name: innovations-project-wp
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: innovations-project-wp
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_HOST
+                  name: innovations-project-wp
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PORT
+                  name: innovations-project-wp
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_DB
+                  name: innovations-project-wp
+
+            - name: WP_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: WP_DATABASE_URL
+                  name: innovations-project-wp
+            - name: WP_JWT_ALGORITHM
+              valueFrom:
+                secretKeyRef:
+                  key: WP_JWT_ALGORITHM
+                  name: innovations-project-wp
+            - name: WP_JWT_EXP_SECONDS
+              valueFrom:
+                secretKeyRef:
+                  key: WP_JWT_EXP_SECONDS
+                  name: innovations-project-wp
+            - name: WP_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: WP_JWT_SECRET
+                  name: innovations-project-wp
+            - name: WP_POSTGRES_DSN
+              valueFrom:
+                secretKeyRef:
+                  key: WP_POSTGRES_DSN
+                  name: innovations-project-wp
+            - name: WP_POSTGRES_DSN_ALEMBIC
+              valueFrom:
+                secretKeyRef:
+                  key: WP_POSTGRES_DSN_ALEMBIC
+                  name: innovations-project-wp
+
+            - name: MILVUS_ALIAS
+              valueFrom:
+                secretKeyRef:
+                  key: MILVUS_ALIAS
+                  name: innovations-project-wp
+            - name: MILVUS_USER
+              valueFrom:
+                secretKeyRef:
+                  key: MILVUS_USER
+                  name: innovations-project-wp
+            - name: MILVUS_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: MILVUS_PASS
+                  name: innovations-project-wp
+            - name: MILVUS_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: MILVUS_HOST
+                  name: innovations-project-wp
+            - name: MILVUS_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: MILVUS_PORT
+                  name: innovations-project-wp
+
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: OPENAI_API_KEY
+                  name: innovations-project-wp
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: project-wp-svc
+  namespace: innovations
+  labels:
+    app: project-wp
+spec:
+  ports:
+    - name: project-wp-api
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
+  selector:
+    app: project-wp
+  type: ClusterIP
