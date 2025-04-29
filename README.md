@@ -18,6 +18,7 @@ A data privacy chatbot built on publick issuances of laws from:
 
 ## 🚀 Key Contributions 
 - 24/7 chatbot for employees' data privacy concerns
+- Demonstrate nuances of laws/issuances
 - Speed up research of applicable privacy documents
 - Responses includes direct neccessary sources supporting its claims and reasoning.
 - Saves time for Data Privacy Team in conduction PIAs (Privacy Impact Assessments)
