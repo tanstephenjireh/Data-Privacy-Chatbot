@@ -23,7 +23,7 @@ A data privacy chatbot built on publick issuances of laws from:
 - Saves time for Data Privacy Team in conduction PIAs (Privacy Impact Assessments)
 
 
-## 📸 Sample Dashboard
+## 📸 Sample Usage
 <img src="./images/dpbot.png" width="800" alt="Sample Usage">
 
 ## 🧠 Skills Demonstrated
