@@ -16,9 +16,9 @@ A data privacy chatbot built on publick issuances of laws from:
 - FastAPI
 - Docker
 
-## 🚀 Key Contributions 
-- 24/7 chatbot for employees' data privacy concerns
+## 🚀 Key Contributions
 - Demonstrate nuances of laws/issuances
+- 24/7 chatbot for employees' data privacy concerns
 - Speed up research of applicable privacy documents
 - Responses includes direct neccessary sources supporting its claims and reasoning.
 - Saves time for Data Privacy Team in conduction PIAs (Privacy Impact Assessments)
